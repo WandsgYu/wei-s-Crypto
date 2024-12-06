@@ -78,7 +78,7 @@
             for (const holding of holdings) {
                 const priceInUsd = await fetchPrice(holding.symbol);
                 if (priceInUsd !== null) {
-                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate+14.47;
+                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate;
                 }
             }
 
