@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>魏猪猪的钱包</title>
+    <title>Loading...</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,7 +17,8 @@
             background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
             color: #ffffff;
         }
-        .balance {
+
+       .balance {
             font-size: 72px;
             font-weight: bold;
             text-align: center;
@@ -27,25 +29,30 @@
             backdrop-filter: blur(10px);
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
         @keyframes pulse {
             0% {
                 transform: scale(1);
                 opacity: 1;
             }
+
             50% {
                 transform: scale(1.1);
                 opacity: 0.8;
             }
+
             100% {
                 transform: scale(1);
                 opacity: 1;
             }
         }
-        .balance {
+
+       .balance {
             animation: pulse 3s infinite;
         }
     </style>
 </head>
+
 <body>
     <div class="balance" id="balanceDisplay">Loading...</div>
     <script>
@@ -57,7 +64,7 @@
             { symbol: "UNIUSDT", quantity: 22.953 }
         ];
 
-        const exchangeRate = 7.21; // USD to CNY
+        const exchangeRate = 7.23; // USD to CNY
         const updateInterval = 300; // ms
         const apiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
 
@@ -77,12 +84,14 @@
 
             for (const holding of holdings) {
                 const priceInUsd = await fetchPrice(holding.symbol);
-                if (priceInUsd !== null) {
-                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate-0.5;
+                if (priceInUsd!== null) {
+                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate - 0.5;
                 }
             }
 
             document.getElementById("balanceDisplay").textContent = `¥${totalBalanceCny.toFixed(2)}`;
+            document.title = `¥${totalBalanceCny.toFixed(2)}`;
+            return totalBalanceCny;
         }
 
         // Update balance every 0.3 seconds
@@ -92,4 +101,5 @@
         updateTotalBalance();
     </script>
 </body>
+
 </html>
