@@ -33,7 +33,7 @@
                 opacity: 1;
             }
             50% {
-                transform: scale(1.3);
+                transform: scale(1.1);
                 opacity: 0.8;
             }
             100% {
@@ -42,7 +42,7 @@
             }
         }
         .balance {
-            animation: pulse 2s infinite;
+            animation: pulse 3s infinite;
         }
     </style>
 </head>
@@ -50,14 +50,14 @@
     <div class="balance" id="balanceDisplay">Loading...</div>
     <script>
         const holdings = [
-            { symbol: "MKRUSDT", quantity: 0.03 },
+            { symbol: "MKRUSDT", quantity: 0.0299 },
             { symbol: "SNXUSDT", quantity: 12 },
             { symbol: "LDOUSDT", quantity: 30 },
-            { symbol: "AAVEUSDT", quantity: 0.48 },
+            { symbol: "AAVEUSDT", quantity: 0.4796 },
             { symbol: "UNIUSDT", quantity: 24 }
         ];
 
-        const exchangeRate = 7.22; // USD to CNY
+        const exchangeRate = 7.21; // USD to CNY
         const updateInterval = 300; // ms
         const apiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
 
@@ -78,7 +78,7 @@
             for (const holding of holdings) {
                 const priceInUsd = await fetchPrice(holding.symbol);
                 if (priceInUsd !== null) {
-                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate;
+                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate+14.47;
                 }
             }
 
