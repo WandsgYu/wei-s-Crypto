@@ -51,10 +51,10 @@
     <script>
         const holdings = [
             { symbol: "MKRUSDT", quantity: 0.0299 },
-            { symbol: "SNXUSDT", quantity: 12 },
-            { symbol: "LDOUSDT", quantity: 30 },
+            { symbol: "SNXUSDT", quantity: 11.4887 },
+            { symbol: "LDOUSDT", quantity: 29.9760 },
             { symbol: "AAVEUSDT", quantity: 0.4796 },
-            { symbol: "UNIUSDT", quantity: 24 }
+            { symbol: "UNIUSDT", quantity: 22.953 }
         ];
 
         const exchangeRate = 7.21; // USD to CNY
@@ -78,7 +78,7 @@
             for (const holding of holdings) {
                 const priceInUsd = await fetchPrice(holding.symbol);
                 if (priceInUsd !== null) {
-                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate;
+                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate-0.5;
                 }
             }
 
