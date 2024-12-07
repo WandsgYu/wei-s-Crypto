@@ -64,7 +64,7 @@
             { symbol: "UNIUSDT", quantity: 22.953 }
         ];
 
-        const exchangeRate = 7.23; // USD to CNY
+        const exchangeRate = 7.28; // USD to CNY
         const updateInterval = 300; // ms
         const apiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
 
@@ -85,7 +85,7 @@
             for (const holding of holdings) {
                 const priceInUsd = await fetchPrice(holding.symbol);
                 if (priceInUsd!== null) {
-                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate - 0.5;
+                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate -1.4;
                 }
             }
 
