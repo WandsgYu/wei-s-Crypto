@@ -18,7 +18,7 @@
             color: #ffffff;
         }
 
-       .balance {
+        .balance {
             font-size: 72px;
             font-weight: bold;
             text-align: center;
@@ -47,7 +47,7 @@
             }
         }
 
-       .balance {
+        .balance {
             animation: pulse 3s infinite;
         }
     </style>
@@ -57,13 +57,15 @@
     <div class="balance" id="balanceDisplay">Loading...</div>
     <script>
         const holdings = [
-            { symbol: "MKRUSDT", quantity: 0.0299 },
-            { symbol: "SNXUSDT", quantity: 11.4887 },
-            { symbol: "LDOUSDT", quantity: 29.9760 },
-            { symbol: "AAVEUSDT", quantity: 0.4796 },
-            { symbol: "UNIUSDT", quantity: 22.953 }
+            { symbol: "BNBUSDT", quantity: 4.0422 },  // BNB held as leverage
+            { symbol: "UNIUSDT", quantity: 21.95 },
+            { symbol: "AAVEUSDT", quantity: 0.4429 },
+            { symbol: "MKRUSDT", quantity: 0.0250 },
+            { symbol: "LDOUSDT", quantity: 24.58 },
+            { symbol: "SNXUSDT", quantity: 8.30 }
         ];
 
+        const borrowedAmount = 2853; // Borrowed USDT
         const exchangeRate = 7.28; // USD to CNY
         const updateInterval = 300; // ms
         const apiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
@@ -82,12 +84,19 @@
         async function updateTotalBalance() {
             let totalBalanceCny = 0;
 
+            // Calculate total value of assets
             for (const holding of holdings) {
                 const priceInUsd = await fetchPrice(holding.symbol);
-                if (priceInUsd!== null) {
-                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate -1.4;
+                if (priceInUsd !== null) {
+                    totalBalanceCny += priceInUsd * holding.quantity * exchangeRate;
                 }
             }
+
+            // Convert borrowed USDT to CNY and subtract from total balance
+            const borrowedAmountCny = borrowedAmount * exchangeRate;
+
+            // Total assets minus the borrowed amount (negative liability)
+            totalBalanceCny -= borrowedAmountCny;
 
             document.getElementById("balanceDisplay").textContent = `¥${totalBalanceCny.toFixed(2)}`;
             document.title = `¥${totalBalanceCny.toFixed(2)}`;
