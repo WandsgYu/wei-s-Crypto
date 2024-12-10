@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    
-<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-<script>LA.init({id:"3KZDBwq8aQdFsRLD",ck:"3KZDBwq8aQdFsRLD",autoTrack:true})</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
@@ -59,15 +57,14 @@
     <div class="balance" id="balanceDisplay">Loading...</div>
     <script>
         const holdings = [
-            { symbol: "BNBUSDT", quantity: 4.0422 },  // BNB held as leverage
-            { symbol: "UNIUSDT", quantity: 21.95 },
-            { symbol: "AAVEUSDT", quantity: 0.4429 },
-            { symbol: "MKRUSDT", quantity: 0.0250 },
-            { symbol: "LDOUSDT", quantity: 24.58 },
-            { symbol: "SNXUSDT", quantity: 8.30 }
+            { symbol: "MKRUSDT", quantity: 0.0299 },
+            { symbol: "SNXUSDT", quantity: 11.4887 },
+            { symbol: "LDOUSDT", quantity: 29.9760 },
+            { symbol: "AAVEUSDT", quantity: 0.4796 },
+            { symbol: "UNIUSDT", quantity: 22.953 }
         ];
 
-        const borrowedAmount = 2853; // Borrowed USDT
+        const borrowedAmount = -5; // Borrowed USDT
         const exchangeRate = 7.28; // USD to CNY
         const updateInterval = 300; // ms
         const apiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
