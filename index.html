@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    
-<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-<script>LA.init({id:"3KZDBwq8aQdFsRLD",ck:"3KZDBwq8aQdFsRLD",autoTrack:true})</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
@@ -59,22 +57,18 @@
     <div class="balance" id="balanceDisplay">Loading...</div>
     <script>
         const holdings = [
-            { symbol: "BNBUSDT", quantity: 4.0422 },  // BNB held as leverage
-            { symbol: "UNIUSDT", quantity: 21.95 },
-            { symbol: "AAVEUSDT", quantity: 0.4429 },
-            { symbol: "MKRUSDT", quantity: 0.0250 },
-            { symbol: "LDOUSDT", quantity: 24.58 },
-            { symbol: "SNXUSDT", quantity: 8.30 }
+            { symbol: "BNB", quantity: 1.5 },  // 现货0.85BNB
+            { symbol: "BNB", quantity: 0 }, // 杠杆0.666BNB
         ];
 
-        const borrowedAmount = 2853; // Borrowed USDT
+        const borrowedAmount = 448; // Borrowed -348 USDT
         const exchangeRate = 7.28; // USD to CNY
         const updateInterval = 300; // ms
-        const apiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
+        const apiUrlBase = "https://api.binance.com/api/v3/ticker/price?symbol=";
 
         async function fetchPrice(symbol) {
             try {
-                const response = await fetch(apiUrlBase + symbol);
+                const response = await fetch(apiUrlBase + symbol + "USDT");
                 const data = await response.json();
                 return parseFloat(data.price);
             } catch (error) {
