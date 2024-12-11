@@ -57,13 +57,13 @@
     <div class="balance" id="balanceDisplay">Loading...</div>
     <script>
         const holdings = [
-            { symbol: "ETH", quantity: 0.1520 },  
-            { symbol: "BNB", quantity: 0 }, 
+            { symbol: "BNB", quantity: 2.5 },  
+            { symbol: "BNB", quantity: 0.76 }, 
         ];
 
-        const borrowedAmount = 0; // Borrowed -348 USDT
-        const exchangeRate = 7.28; // USD to CNY
-        const updateInterval = 300; // ms
+        const borrowedAmount = 1673; // Borrowed -348 USDT
+        const exchangeRate = 7.31; // USD to CNY
+        const updateInterval = 1000; // ms
         const apiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
 
         async function fetchPrice(symbol) {
