@@ -1,124 +1,151 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="cache-control" content="no-store" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            color: #ffffff;
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        color: #ffffff;
+      }
+
+      .balance {
+        font-size: 72px;
+        font-weight: bold;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 20px 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
         }
 
-        .balance {
-            font-size: 72px;
-            font-weight: bold;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
+      }
 
-        .balance {
-            animation: pulse 3s infinite;
-        }
+      .balance {
+        animation: pulse 3s infinite;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="balance" id="balanceDisplay">Loading...</div>
     <script>
-        const holdings = [
-            { symbol: "DOGE", openPrice: 0.4, leverage: 3, margin: 175, quantity: 0 },
-            { symbol: "BGB", openPrice: 3.3044, leverage: 3, margin: 110, quantity: 0 },
-            { symbol: "UNI", openPrice: null, leverage: 1, margin: 0, quantity: 9.99 }   // Spot holding
-        ];
+      const holdings = [
+        {
+          symbol: "DOGE",
+          openPrice: 0.4,
+          leverage: 3,
+          margin: 175,
+          quantity: 0,
+        },
+        {
+          symbol: "BGB",
+          openPrice: 3.3044,
+          leverage: 3,
+          margin: 110,
+          quantity: 0,
+        },
+        {
+          symbol: "UNI",
+          openPrice: null,
+          leverage: 1,
+          margin: 0,
+          quantity: 9.99,
+        }, // Spot holding
+      ];
 
-        const usdtBalance = 265; // Direct USDT balance (no price fetch needed)
+      const usdtBalance = 265; // Direct USDT balance (no price fetch needed)
 
-        const exchangeRate = 7.267; // USD to CNY (adjust if needed)
-        const updateInterval = 500; // ms
-        const binanceApiUrlBase = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
+      const exchangeRate = 7.267; // USD to CNY (adjust if needed)
+      const updateInterval = 500; // ms
+      const binanceApiUrlBase =
+        "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
 
-        const presetPrices = { BGB: 3.95 }; // Predefined price for BGB
+      const presetPrices = { BGB: 3.95 }; // Predefined price for BGB
 
-        async function fetchPrice(symbol) {
-            if (presetPrices[symbol]) {
-                return presetPrices[symbol];
-            }
-
-            try {
-                const response = await fetch(`${binanceApiUrlBase}${symbol}USDT`);
-                const data = await response.json();
-                return parseFloat(data.price);
-            } catch (error) {
-                console.error("Error fetching price:", error);
-                return null;
-            }
+      async function fetchPrice(symbol) {
+        if (presetPrices[symbol]) {
+          return presetPrices[symbol];
         }
 
-        async function calculateTotalValue() {
-            let totalValue = 0;
+        try {
+          const response = await fetch(`${binanceApiUrlBase}${symbol}USDT`);
+          const data = await response.json();
+          return parseFloat(data.price);
+        } catch (error) {
+          console.error("Error fetching price:", error);
+          return null;
+        }
+      }
 
-            for (const holding of holdings) {
-                const currentPrice = await fetchPrice(holding.symbol);
-                if (currentPrice === null) {
-                    document.getElementById("balanceDisplay").textContent = "Error fetching price";
-                    return;
-                }
+      async function calculateTotalValue() {
+        let totalValue = 0;
 
-                if (holding.openPrice) {
-                    // Calculate for leveraged positions
-                    const positionSize = (holding.margin * holding.leverage) / holding.openPrice;
-                    totalValue += (positionSize * currentPrice) - ((positionSize * holding.openPrice) - holding.margin);
-                } else {
-                    // Calculate for spot holdings
-                    totalValue += holding.quantity * currentPrice;
-                }
-            }
+        for (const holding of holdings) {
+          const currentPrice = await fetchPrice(holding.symbol);
+          if (currentPrice === null) {
+            document.getElementById("balanceDisplay").textContent =
+              "Error fetching price";
+            return;
+          }
 
-            // Add the USDT balance to the total value
-            totalValue += usdtBalance; // Directly adding USDT balance
-
-            // Display total value in CNY
-            document.getElementById("balanceDisplay").textContent = `¥${(totalValue * exchangeRate).toFixed(2)}`;
-            document.title = `¥${(totalValue * exchangeRate).toFixed(2)}`;
+          if (holding.openPrice) {
+            // Calculate for leveraged positions
+            const positionSize =
+              (holding.margin * holding.leverage) / holding.openPrice;
+            totalValue +=
+              positionSize * currentPrice -
+              (positionSize * holding.openPrice - holding.margin);
+          } else {
+            // Calculate for spot holdings
+            totalValue += holding.quantity * currentPrice;
+          }
         }
 
-        // Update balance every second
-        setInterval(calculateTotalValue, updateInterval);
+        // Add the USDT balance to the total value
+        totalValue += usdtBalance; // Directly adding USDT balance
 
-        // Initial load
-        calculateTotalValue();
+        // Display total value in CNY
+        document.getElementById("balanceDisplay").textContent = `¥${(
+          totalValue * exchangeRate
+        ).toFixed(2)}`;
+        document.title = `¥${(totalValue * exchangeRate).toFixed(2)}`;
+      }
+
+      // Update balance every second
+      setInterval(calculateTotalValue, updateInterval);
+
+      // Initial load
+      calculateTotalValue();
     </script>
-</body>
-
+  </body>
 </html>
