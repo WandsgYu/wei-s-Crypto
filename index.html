@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -61,29 +62,22 @@
     <script>
       const holdings = [
         {
-          symbol: "DOGE",
-          openPrice: 0.4,
-          leverage: 3,
-          margin: 175,
-          quantity: 0,
+          symbol: "BTC",
+          openPrice: 103834,
+          leverage: 6,
+          margin: 693,
+          quantity: 0.04,
         },
         {
-          symbol: "BGB",
-          openPrice: 3.3044,
-          leverage: 3,
-          margin: 110,
-          quantity: 0,
-        },
-        {
-          symbol: "UNI",
+          symbol: "BNB",
           openPrice: null,
           leverage: 1,
           margin: 0,
-          quantity: 9.99,
+          quantity: 0.07,
         }, // Spot holding
       ];
 
-      const usdtBalance = 265; // Direct USDT balance (no price fetch needed)
+      const usdtBalance = 14; // Direct USDT balance (no price fetch needed)
 
       const exchangeRate = 7.267; // USD to CNY (adjust if needed)
       const updateInterval = 500; // ms
